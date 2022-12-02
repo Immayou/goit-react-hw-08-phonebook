@@ -1,4 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist';
 import { authSlice } from './authSlice';
 import { filterSlice } from './filterSlice';
 import { contactsApi } from './contactsAPISlice';
