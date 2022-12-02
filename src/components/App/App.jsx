@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useGetContactsQuery } from '../../redux/contactsAPISlice';
-import AppBar from '../AppBar/AppBar';
+import SharedAppBar from '../AppBar/AppBar';
 import { Home } from '../../pages/Home/Home';
 import { Registration } from '../../pages/Registration/Registration';
 import { LogIn } from '../../pages/LogIn/LogIn';
@@ -29,10 +29,9 @@ export const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<AppBar />}>
-          <Route index element={<Home />} />
+        <Route path="/login" element={<Home />} />
+        <Route path="/" element={<SharedAppBar />}>
           <Route path="registration" element={<Registration />} />
-          <Route path="login" element={<LogIn />} />
           <Route path="contacts" element={<Contacts />} />
         </Route>
         <Route path="*" element={<div>not found</div>} />
