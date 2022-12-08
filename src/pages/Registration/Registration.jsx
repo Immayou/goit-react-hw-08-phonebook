@@ -1,20 +1,64 @@
-export const Registration = () => {
+import { useDispatch } from 'react-redux';
+import { FaFeather } from 'react-icons/fa';
+import { register } from '../../redux/authOperations';
+import {
+  Form,
+  WrapperLeft,
+  WrapperRight,
+  WrapperCircle,
+  FormContent,
+  FormTitle,
+  FormLabel,
+  FormInput,
+  FormPasswordInput,
+  FormButton,
+  Layout,
+} from '../LogIn/LogIn.styled';
+
+const Registration = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    dispatch(
+      register({
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+      })
+    );
+    form.reset();
+  };
   return (
-    <main>
-      <h1>Registration</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
-        laborum amet ab cumque sit nihil dolore modi error repudiandae
-        perspiciatis atque voluptas corrupti, doloribus ex maiores quam magni
-        mollitia illum dolor quis alias in sequi quod. Sunt ex numquam hic
-        asperiores facere natus sapiente cum neque laudantium quam, expedita
-        voluptates atque quia aspernatur saepe illo, rem quasi praesentium
-        aliquid sed inventore obcaecati veniam? Nisi magnam vero, dolore
-        praesentium totam ducimus similique asperiores culpa, eius amet
-        repudiandae quam ut. Architecto commodi, tempore ut nostrum voluptas
-        dolorum illum voluptatum dolores! Quas perferendis quis alias excepturi
-        eaque voluptatibus eveniet error, nulla rem iusto?
-      </p>
-    </main>
+    <>
+      <main>
+        <Layout>
+          <Form onSubmit={handleSubmit}>
+            <WrapperLeft></WrapperLeft>
+            <WrapperRight></WrapperRight>
+            <WrapperCircle></WrapperCircle>
+            <FormContent>
+              <FormTitle>Let's register</FormTitle>
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <FormInput type="text" id="name" name="name" />
+              <FormLabel htmlFor="email">E-mail</FormLabel>
+              <FormInput type="text" id="email" name="email" />
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormPasswordInput
+                type="password"
+                id="password"
+                name="password"
+              />
+              <FormButton type="submit">
+                <FaFeather style={{ marginRight: '5px' }} />
+                <span>Ok</span>
+              </FormButton>
+            </FormContent>
+          </Form>
+        </Layout>
+      </main>
+    </>
   );
 };
+
+export default Registration;

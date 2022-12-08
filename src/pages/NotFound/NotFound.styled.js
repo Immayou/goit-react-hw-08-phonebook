@@ -27,21 +27,6 @@ export const Layout = styled.div`
   }
 `;
 
-export const HomePageTextIfLogged = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  letter-spacing: 0.3ch;
-  color: #000000;
-  text-transform: uppercase;
-  font-size: 45px;
-  text-align: center;
-  @media screen and (max-width: 480px) {
-    font-size: 25px;
-  }
-`;
-
 export const HomePageText = styled.div`
   position: absolute;
   top: 40%;
@@ -51,32 +36,11 @@ export const HomePageText = styled.div`
   color: #000000;
   text-transform: uppercase;
   font-size: 30px;
-  @media screen and (min-width: 480px) {
-    font-size: 45px;
-  }
-  @media screen and (min-width: 768px) {
-    font-size: 60px;
-  }
-  @media screen and (min-width: 1200px) {
-    font-size: 80px;
-  }
-`;
-
-export const HomePageTitle = styled.h1`
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 30px auto 0 auto;
   text-align: center;
-  letter-spacing: 0.3ch;
-  color: #000000;
-  text-transform: uppercase;
-  font-size: 30px;
   @media screen and (min-width: 480px) {
     font-size: 45px;
   }
   @media screen and (min-width: 768px) {
-    font-size: 70px;
+    font-size: 80px;
   }
 `;

@@ -12,9 +12,15 @@ export const Title = styled.h1`
   align-items: center;
   justify-content: space-evenly;
   margin-bottom: 20px;
-  font-size: 46px;
+  font-size: 30px;
   font-weight: 500;
   line-height: 1.33;
+  @media screen and (min-width: 480px) {
+    font-size: 40px;
+  }
+  @media screen and (min-width: 768px) {
+    font-size: 46px;
+  }
 `;
 
 export const PhoneForm = styled.form`
@@ -24,26 +30,26 @@ export const PhoneForm = styled.form`
   border-radius: 5px;
 `;
 
-export const NameLabel = styled.label`
+export const FormLabel = styled.label`
   margin-bottom: 10px;
-  font-size: 15px;
+  font-size: 12px;
   line-height: 1.17;
   text-align: start;
-`;
-export const NumberLabel = styled.label`
-  margin-bottom: 10px;
-  font-size: 15px;
-  line-height: 1.17;
-  text-align: start;
+
+  @media screen and (min-width: 480px) {
+    font-size: 15px;
+  }
 `;
 
 export const InputNameField = styled.input`
-  min-height: 20px;
+  padding-left: 0 0 0 10px;
   margin-bottom: 30px;
-  border: 1px solid #000;
-  border-radius: 4px;
+  background: #e9eff6;
+  line-height: 40px;
+  border-width: 1px;
+  font-size: 18px;
+  border-radius: 12px;
   transition: box-shadow 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
-
   :hover,
   :focus {
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
@@ -51,12 +57,14 @@ export const InputNameField = styled.input`
   }
 `;
 export const InputNumberField = styled.input`
-  min-height: 20px;
+  padding-left: 0 0 0 10px;
   margin-bottom: 30px;
-  border: 1px solid #000;
-  border-radius: 4px;
+  background: #e9eff6;
+  line-height: 40px;
+  border-width: 1px;
+  border-radius: 12px;
+  font-size: 18px;
   transition: box-shadow 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
-
   :hover,
   :focus {
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
@@ -64,21 +72,33 @@ export const InputNumberField = styled.input`
   }
 `;
 export const FormButton = styled.button`
-  width: 100px;
-  min-height: 30px;
   margin: 0 auto;
-  border-radius: 5px;
-  border: 1px solid gray;
-  background-color: lightgray;
+  width: 40%;
+  height: 40px;
+  border-radius: 7px;
+  font-family: inherit;
+  text-transform: uppercase;
+  background: #c5dde8;
+  border-bottom: 2px solid gray;
+  border-radius: 12px;
+  color: #000000;
+  line-height: 1.17;
+  letter-spacing: 0.3ch;
+  font-size: 12px;
   transition: box-shadow 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
     background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
-    border 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
-
+    color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
+    letter-spacing 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
   :hover,
   :focus {
-    background-color: lightblue;
-    border: 1px solid #000;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
       1px 4px 6px rgba(0, 0, 0, 0.16);
+    color: grey;
+    background-color: #eecfba;
+    letter-spacing: 0.2ch;
+  }
+  @media screen and (min-width: 768px) {
+    letter-spacing: 0.2ch;
+    font-size: 15px;
   }
 `;

@@ -20,41 +20,93 @@ export const Overlay = styled.div`
   z-index: 1200;
 `;
 
-export const ModalWindow = styled.div`
-  position: relative;
-  max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
-  padding: 20px;
-  border: thick double #32a1ce;
-  border-radius: 5px;
-  background-color: #ffffff;
-`;
-
-export const ModalForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const ModalBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-`;
-
 export const ModalCloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 20px;
-  height: 20px;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
-  border: solid 1px #32a1ce;
+  background-color: #e9eff6;
   border-radius: 50%;
-  transition: background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
-  &:hover {
-    background-color: #32a1ce;
+  transition: box-shadow 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
+    background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
+    color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
+    letter-spacing 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+  :hover,
+  :focus {
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+      1px 4px 6px rgba(0, 0, 0, 0.16);
+    color: grey;
+    background-color: #eecfba;
+    letter-spacing: 0.1ch;
+  }
+`;
+
+export const WrapperLeft = styled.div`
+  @media screen and (min-width: 480px) {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    bottom: 60px;
+    left: -30px;
+    &:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 20px;
+      border-radius: 30px;
+      background: white;
+      top: 20px;
+      left: 10px;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 20px;
+      border-radius: 30px;
+      background: white;
+
+      top: -20px;
+    }
+  }
+`;
+
+export const WrapperRight = styled.div`
+  @media screen and (min-width: 480px) {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    top: 60px;
+    right: -30px;
+    &:after {
+      top: 20px;
+      right: 10px;
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 20px;
+      border-radius: 30px;
+      background: white;
+    }
+    &:before {
+      top: -20px;
+      right: 0;
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 20px;
+      border-radius: 30px;
+      background: white;
+    }
   }
 `;

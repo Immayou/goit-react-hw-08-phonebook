@@ -1,28 +1,25 @@
 import { useState } from 'react';
+import { FaFeather } from 'react-icons/fa';
 import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 import { TiPhoneOutline } from 'react-icons/ti';
-import {
-  useGetContactsQuery,
-  useAddContactMutation,
-} from '../../redux/contactsAPISlice';
-import {
-  notifyError,
-  notifySuccess,
-} from '../../../src/notificationMessages/notificationMessages';
+import { getContacts, getIsLoading } from '../../redux/contactSlice';
+import { addNewContact } from '../../redux/operations';
+import { notifyErrorIfNewContactAlreadyExists } from '../../notificationMessages/notificationMessages';
 import {
   Title,
   PhoneForm,
-  NameLabel,
+  FormLabel,
   InputNameField,
-  NumberLabel,
   InputNumberField,
   FormButton,
   StyledContainer,
 } from './ContactForm.styled';
 
 const ContactForm = () => {
-  const { data } = useGetContactsQuery();
-  const [newContact, { isLoading }] = useAddContactMutation();
+  const dispatch = useDispatch();
+  const addedContacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -42,23 +39,22 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const contactToAdd = {
       name,
-      phone: number,
+      number,
     };
 
-    const checkIfNewContactAlreadyExists = data.find(
+    const newContactAlreadyExists = addedContacts.find(
       ({ name }) => name.toLowerCase() === contactToAdd.name.toLowerCase()
     );
 
-    if (checkIfNewContactAlreadyExists) {
-      notifyError(contactToAdd.name);
+    if (newContactAlreadyExists) {
+      notifyErrorIfNewContactAlreadyExists(contactToAdd.name);
     } else {
-      await newContact(contactToAdd);
-      notifySuccess(contactToAdd.name);
+      dispatch(addNewContact(contactToAdd));
     }
     reset();
   };
@@ -70,11 +66,11 @@ const ContactForm = () => {
 
   return (
     <PhoneForm onSubmit={handleSubmit}>
-      <StyledContainer />
+      <StyledContainer autoClose={2000} />
       <Title>
-        <TiPhoneOutline size={50} /> Phonebook
+        <TiPhoneOutline size={40} /> Phonebook
       </Title>
-      <NameLabel htmlFor={nameInputId}>Name</NameLabel>
+      <FormLabel htmlFor={nameInputId}>Name</FormLabel>
       <InputNameField
         id={nameInputId}
         type="text"
@@ -85,7 +81,7 @@ const ContactForm = () => {
         onChange={handleInput}
         required
       />
-      <NumberLabel htmlFor={numberInputId}>Number</NumberLabel>
+      <FormLabel htmlFor={numberInputId}>Number</FormLabel>
       <InputNumberField
         id={numberInputId}
         type="tel"
@@ -97,7 +93,8 @@ const ContactForm = () => {
         required
       />
       <FormButton type="submit" disabled={isLoading}>
-        Add contact
+        <FaFeather style={{ marginRight: '5px' }} />
+        <span>Add contact</span>
       </FormButton>
     </PhoneForm>
   );

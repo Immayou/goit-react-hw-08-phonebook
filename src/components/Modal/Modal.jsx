@@ -1,33 +1,38 @@
+import PropTypes from 'prop-types';
+import { FaFeather } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createPortal } from 'react-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { IoCloseSharp } from 'react-icons/io5';
-import {
-  useEditContactMutation,
-  useGetContactsQuery,
-} from '../../redux/contactsAPISlice';
-import {
-  notifyError,
-  notifySuccessEditedInfo,
-} from '../../../src/notificationMessages/notificationMessages';
+import { getContacts } from '../../redux/contactSlice';
+import { editContact } from '../../redux/operations';
+import { notifyErrorIfNewContactAlreadyExists } from '../../../src/notificationMessages/notificationMessages';
 import {
   Overlay,
-  ModalWindow,
-  ModalForm,
-  ModalBox,
   ModalCloseButton,
+  WrapperLeft,
+  WrapperRight,
 } from '../Modal/Modal.styled';
-import { ContactButton } from '../ContactItem/ContactItem.styled';
+import {
+  Form,
+  WrapperCircle,
+  FormContent,
+  FormTitle,
+  FormLabel,
+  FormInput,
+  FormButton,
+} from '../../pages/LogIn/LogIn.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
 export const Modal = ({ onModalClose, dataContact }) => {
+  const dispatch = useDispatch();
+  const addedContacts = useSelector(getContacts);
   document.body.style.overflow = 'hidden';
-  const [editContact] = useEditContactMutation();
-  const { data: contacts } = useGetContactsQuery();
 
   const [name, setName] = useState(dataContact.name);
-  const [number, setNumber] = useState(dataContact.phone);
+  const [number, setNumber] = useState(dataContact.number);
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
@@ -63,26 +68,33 @@ export const Modal = ({ onModalClose, dataContact }) => {
     }
   };
 
-  const handleEditContactFormSubmit = async e => {
+  const handleEditContactFormSubmit = e => {
     e.preventDefault();
-    await contacts;
     const contactToEdit = {
       id: dataContact.id,
       name,
-      phone: number,
+      number,
     };
 
-    const checkIfEditedContactAlreadyExists = contacts.find(
+    const editedContactAlreadyExists = addedContacts.find(
       ({ name, id }) =>
         name.toLowerCase() === contactToEdit.name.toLowerCase() &&
         contactToEdit.id !== id
     );
 
-    if (checkIfEditedContactAlreadyExists) {
-      notifyError(contactToEdit.name);
+    const contactIsNotEdited = addedContacts.find(
+      ({ name, id, number }) =>
+        name.toLowerCase() === contactToEdit.name.toLowerCase() &&
+        contactToEdit.id === id &&
+        number === contactToEdit.number
+    );
+
+    if (editedContactAlreadyExists) {
+      notifyErrorIfNewContactAlreadyExists(contactToEdit.name);
+    } else if (contactIsNotEdited) {
+      onModalClose();
     } else {
-      await editContact(contactToEdit);
-      notifySuccessEditedInfo(contactToEdit.name);
+      dispatch(editContact(contactToEdit));
     }
 
     document.body.style.overflow = '';
@@ -90,53 +102,48 @@ export const Modal = ({ onModalClose, dataContact }) => {
 
   return createPortal(
     <Overlay onClick={handleBackdropClick}>
-      <ModalWindow>
+      <Form onSubmit={handleEditContactFormSubmit}>
         <ModalCloseButton type="button" onClick={onModalClose}>
-          <IoCloseSharp size={20} />
+          <IoCloseSharp size={40} />
         </ModalCloseButton>
-        <ModalForm onSubmit={handleEditContactFormSubmit}>
-          <ModalBox>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginBottom: '10px',
-              }}
-            >
-              <label htmlFor={nameInputId}>Name</label>
-              <input
-                style={{ width: '300px' }}
-                id={nameInputId}
-                type="text"
-                name="name"
-                value={name}
-                onChange={handleInput}
-                pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                required
-              />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label htmlFor={numberInputId}>Number</label>
-              <input
-                id={numberInputId}
-                style={{ width: '300px' }}
-                type="tel"
-                name="number"
-                value={number}
-                onChange={handleInput}
-                pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                required
-              />
-            </div>
-          </ModalBox>
-          <ContactButton type="submit" style={{ margin: '0 auto' }}>
-            Edit contact
-          </ContactButton>
-        </ModalForm>
-      </ModalWindow>
+        <WrapperLeft></WrapperLeft>
+        <WrapperRight></WrapperRight>
+        <WrapperCircle></WrapperCircle>
+        <FormContent>
+          <FormTitle>Edit the contact</FormTitle>
+          <FormLabel htmlFor={nameInputId}>Name</FormLabel>
+          <FormInput
+            id={nameInputId}
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleInput}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+          <FormLabel htmlFor={numberInputId}>Number</FormLabel>
+          <FormInput
+            id={numberInputId}
+            type="tel"
+            name="number"
+            value={number}
+            onChange={handleInput}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+          <FormButton type="submit">
+            <FaFeather style={{ marginRight: '5px' }} />
+            <span>Ok</span>
+          </FormButton>
+        </FormContent>
+      </Form>
     </Overlay>,
     modalRoot
   );
+};
+
+Modal.propTypes = {
+  onModalClose: PropTypes.func.isRequired,
 };

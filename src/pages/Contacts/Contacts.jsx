@@ -1,20 +1,78 @@
-export const Contacts = () => {
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts, getIsLoading, getError } from '../../redux/contactSlice';
+import { fetchContacts } from '../../redux/operations';
+import TopBox from '../../components/TopBox/TopBox';
+import BottomBox from '../../components/BottomBox/BottomBox';
+import ContactForm from '../../components/ContactForm/ContactForm';
+import ContactList from '../../components/ContactList/ContactList';
+import Filter from '../../components/Filter/Filter';
+import errorImg from '../../images/error.png';
+import emptyPhonebookImg from '../../images/no_contacts.png';
+import {
+  MainWrapper,
+  ContactsTitle,
+  Layout,
+  NoContactsSectionTitle,
+  ErrorSectionTitle,
+  ErrorSectionText,
+} from './Contacts.styled';
+
+const Contacts = () => {
+  const addedContacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const isError = useSelector(getError);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+  const isNotContactListEmpty = addedContacts.length > 0;
   return (
-    <main>
-      <h1>Contacts</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
-        laborum amet ab cumque sit nihil dolore modi error repudiandae
-        perspiciatis atque voluptas corrupti, doloribus ex maiores quam magni
-        mollitia illum dolor quis alias in sequi quod. Sunt ex numquam hic
-        asperiores facere natus sapiente cum neque laudantium quam, expedita
-        voluptates atque quia aspernatur saepe illo, rem quasi praesentium
-        aliquid sed inventore obcaecati veniam? Nisi magnam vero, dolore
-        praesentium totam ducimus similique asperiores culpa, eius amet
-        repudiandae quam ut. Architecto commodi, tempore ut nostrum voluptas
-        dolorum illum voluptatum dolores! Quas perferendis quis alias excepturi
-        eaque voluptatibus eveniet error, nulla rem iusto?
-      </p>
-    </main>
+    <>
+      <main>
+        <Layout>
+          <MainWrapper>
+            <TopBox>
+              <ContactForm />
+            </TopBox>
+            {isNotContactListEmpty && (
+              <BottomBox>
+                <div>
+                  <ContactsTitle>Contacts</ContactsTitle>
+                  <Filter />
+                  <ContactList />
+                </div>
+              </BottomBox>
+            )}
+            {!isNotContactListEmpty && !isLoading && (
+              <BottomBox>
+                <div>
+                  <NoContactsSectionTitle>
+                    No contacts yet!
+                  </NoContactsSectionTitle>
+                  <img src={emptyPhonebookImg} alt="No contacts" width={100} />
+                </div>
+              </BottomBox>
+            )}
+            {isError && !isLoading && (
+              <BottomBox>
+                <div>
+                  <ErrorSectionTitle>
+                    Sorry, something went wrong!
+                  </ErrorSectionTitle>
+                  <ErrorSectionText style={{ marginBottom: '10px' }}>
+                    Error loading the contacts
+                  </ErrorSectionText>
+                  <img src={errorImg} alt="Error" width={100} />
+                </div>
+              </BottomBox>
+            )}
+          </MainWrapper>
+        </Layout>
+      </main>
+    </>
   );
 };
+
+export default Contacts;

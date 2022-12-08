@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 import { setFilter } from '../../redux/filterSlice';
 import { FilterWrapper, FilterLabel, InputFilterField } from './Filter.styled';
 

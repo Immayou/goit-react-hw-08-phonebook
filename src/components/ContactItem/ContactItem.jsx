@@ -1,23 +1,26 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useDeleteContactMutation } from '../../redux/contactsAPISlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { TiContacts } from 'react-icons/ti';
-import { notifySuccessDeletedInfo } from '../../../src/notificationMessages/notificationMessages';
+import { getIsLoading } from '../../redux/contactSlice';
+import { removeContact } from '../../redux/operations';
 import { Modal } from '../Modal/Modal';
 import {
   ContactSimpleItem,
   NameInfo,
   NumberInfo,
   ContactButton,
+  ButtonBox,
 } from './ContactItem.styled';
 
 export const ContactItem = ({ item }) => {
+  const dispatch = useDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [deleteContact, { isLoading }] = useDeleteContactMutation();
+  const isLoading = useSelector(getIsLoading);
 
-  const onDeleteContactHandler = async () => {
+  const onRemoveContactHandler = () => {
     try {
-      await deleteContact(item.id);
-      notifySuccessDeletedInfo(item.name);
+      dispatch(removeContact(item.id));
     } catch (error) {
       console.log(error);
     }
@@ -40,27 +43,33 @@ export const ContactItem = ({ item }) => {
           <TiContacts size={30} style={{ marginRight: '10px' }} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <NameInfo>{item.name}: </NameInfo>
-            <NumberInfo>{item.phone}</NumberInfo>
+            <NumberInfo>{item.number}</NumberInfo>
           </div>
         </div>
-        <div style={{ display: 'flex' }}>
-          <ContactButton
-            type="button"
-            style={{ marginRight: '5px' }}
-            onClick={onEditButtonHandlerClick}
-          >
+        <ButtonBox>
+          <ContactButton type="button" onClick={onEditButtonHandlerClick}>
             Edit
           </ContactButton>
           <ContactButton
             type="button"
             disabled={isLoading}
-            onClick={onDeleteContactHandler}
+            onClick={onRemoveContactHandler}
           >
             {isLoading ? 'Deleting' : 'Delete'}
           </ContactButton>
-        </div>
+        </ButtonBox>
       </ContactSimpleItem>
       {isOpenModal && <Modal onModalClose={onModalClose} dataContact={item} />}
     </>
   );
+};
+
+ContactItem.propTypes = {
+  item: PropTypes.shape(
+    {
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    }.isRequired
+  ).isRequired,
 };

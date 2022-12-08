@@ -1,30 +1,22 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const notifySuccess = text => {
-  toast.success(`${text} is added to contacts!`, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000,
-  });
+export const notifySuccessAddedContactInfo = text => {
+  toast.success(`Contact "${text}" is added to contacts!`);
 };
 
-export const notifySuccessDeletedInfo = text => {
-  toast.info(`${text} is deleted from contacts!`, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000,
-  });
+export const notifySuccessRemovedInfo = text => {
+  toast.info(`Contact "${text}" is deleted from contacts!`);
 };
 
 export const notifySuccessEditedInfo = text => {
-  toast.info(`${text}'s contact is edited!`, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000,
-  });
+  toast.info(`Contact "${text}"  is edited!`);
 };
 
-export const notifyError = text => {
-  toast.error(`${text} already exists in contacts!`, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000,
-  });
+export const notifyErrorIfNewContactAlreadyExists = text => {
+  toast.error(`Contact "${text}" already exists in contacts!`);
+};
+
+export const notifyError = () => {
+  toast.error(`Sorry, something went wrong!`);
 };
