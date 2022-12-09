@@ -5,7 +5,7 @@ import {
   notifySuccessEditedInfo,
   notifySuccessRemovedInfo,
   notifyError,
-} from '../notificationMessages/notificationMessages';
+} from '../../notificationMessages/notificationMessages';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 

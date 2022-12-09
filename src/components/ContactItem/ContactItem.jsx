@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TiContacts } from 'react-icons/ti';
-import { getIsLoading } from '../../redux/contactSlice';
-import { removeContact } from '../../redux/operations';
+import { getIsLoading } from '../../redux/Contacts/contactSelectors';
+import { removeContact } from '../../redux/Contacts/operations';
 import { Modal } from '../Modal/Modal';
 import {
   ContactSimpleItem,

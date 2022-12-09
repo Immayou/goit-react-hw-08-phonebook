@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { refreshUser } from '../../redux/authOperations';
+import { refreshUser } from '../../redux/Auth/authOperations';
 import { useAuth } from '../../hooks/useAuth';
 import { SharedAppBar } from '../SharedAppBar/SharedAppBar';
 import { RestrictedRoute } from '../RestrictedRoute';

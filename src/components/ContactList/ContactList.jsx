@@ -1,6 +1,9 @@
 import { useSelector } from 'react-redux';
-import { getContacts, getIsLoading } from '../../redux/contactSlice';
-import { getFilterValue } from '../../redux/filterSlice';
+import {
+  getContacts,
+  getIsLoading,
+} from '../../redux/Contacts/contactSelectors';
+import { getFilterValue } from '../../redux/Contacts/filterSlice';
 import { ContactItem } from '../ContactItem/ContactItem';
 import { Spinner } from '../Spinner/Spinner';
 import featherImg from '../../images/feather_logo.png';

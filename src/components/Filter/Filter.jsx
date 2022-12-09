@@ -1,6 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { setFilter } from '../../redux/filterSlice';
+import { setFilter } from '../../redux/Contacts/filterSlice';
 import { FilterWrapper, FilterLabel, InputFilterField } from './Filter.styled';
 
 const Filter = () => {

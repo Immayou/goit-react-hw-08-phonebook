@@ -10,9 +10,9 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import { contactsSlice } from './contactSlice';
-import { filterSlice } from './filterSlice';
-import { authSlice } from './authSlice';
+import { contactsSlice } from './Contacts/contactSlice';
+import { filterSlice } from './Contacts/filterSlice';
+import { authSlice } from './Auth/authSlice';
 
 const authPersistConfig = {
   key: 'auth',

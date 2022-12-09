@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Form, Field } from 'formik';
 import { ToastContainer } from 'react-toastify';
 
 export const StyledContainer = styled(ToastContainer)`
@@ -23,7 +24,7 @@ export const Title = styled.h1`
   }
 `;
 
-export const PhoneForm = styled.form`
+export const PhoneForm = styled(Form)`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -41,7 +42,7 @@ export const FormLabel = styled.label`
   }
 `;
 
-export const InputNameField = styled.input`
+export const InputNameField = styled(Field)`
   padding-left: 0 0 0 10px;
   margin-bottom: 30px;
   background: #e9eff6;
@@ -56,7 +57,7 @@ export const InputNameField = styled.input`
       1px 4px 6px rgba(0, 0, 0, 0.16);
   }
 `;
-export const InputNumberField = styled.input`
+export const InputNumberField = styled(Field)`
   padding-left: 0 0 0 10px;
   margin-bottom: 30px;
   background: #e9eff6;

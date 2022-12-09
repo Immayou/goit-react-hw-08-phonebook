@@ -20,3 +20,13 @@ export const notifyErrorIfNewContactAlreadyExists = text => {
 export const notifyError = () => {
   toast.error(`Sorry, something went wrong!`);
 };
+
+export const notifyErrorLogin = () => {
+  toast.error(
+    `Something went wrong! Сheck if the login and password are entered correctly.`
+  );
+};
+
+export const notifyErrorRegister = () => {
+  toast.error(`Something went wrong! Try with other email.`);
+};

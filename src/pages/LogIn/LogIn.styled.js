@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Form, Field, ErrorMessage } from 'formik';
 import Feathers from '../../images/feathers.png';
 
 export const Layout = styled.div`
@@ -13,7 +14,7 @@ export const Layout = styled.div`
   transition: box-shadow 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 `;
 
-export const Form = styled.form`
+export const FormBox = styled(Form)`
   position: relative;
   width: 250px;
   margin: 50px auto 0 auto;
@@ -120,7 +121,6 @@ export const FormTitle = styled.h3`
   font-size: 18px;
   text-align: center;
   color: #000000;
-  margin-bottom: 20px;
   @media screen and (min-width: 480px) {
     font-size: 24px;
   }
@@ -128,7 +128,7 @@ export const FormTitle = styled.h3`
 export const FormLabel = styled.label`
   color: #000000;
   display: block;
-  margin-bottom: 10px;
+  margin: 20px auto 10px auto;
   font-size: 12px;
   @media screen and (min-width: 480px) {
     font-size: 14px;
@@ -136,13 +136,16 @@ export const FormLabel = styled.label`
   @media screen and (min-width: 768px) {
     font-size: 16px;
   }
+  @media screen and (min-width: 480px) {
+    margin: 30px auto 10px auto;
+  }
 `;
 
-export const FormInput = styled.input`
+export const FormInput = styled(Field)`
   display: block;
   width: 95%;
   padding-left: 0 0 0 10px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto;
   background: #e9eff6;
   line-height: 40px;
   border-width: 1px;
@@ -154,17 +157,15 @@ export const FormInput = styled.input`
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
       1px 4px 6px rgba(0, 0, 0, 0.16);
   }
-  @media screen and (min-width: 480px) {
-    margin: 0 auto 40px auto;
-  }
+
   @media screen and (min-width: 768px) {
     font-size: 16px;
   }
 `;
-export const FormPasswordInput = styled.input`
+export const FormPasswordInput = styled(Field)`
   display: block;
   width: 95%;
-  margin: 0 auto 20px auto;
+  margin: 0 auto;
   background: #e9eff6;
   line-height: 40px;
   border-width: 1px;
@@ -176,19 +177,17 @@ export const FormPasswordInput = styled.input`
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
       1px 4px 6px rgba(0, 0, 0, 0.16);
   }
-  @media screen and (min-width: 480px) {
-    margin: 0 auto 40px auto;
-  }
+
   @media screen and (min-width: 768px) {
     font-size: 16px;
   }
 `;
+
 export const FormButton = styled.button`
   display: block;
-  margin: 0 auto;
+  margin: 20px auto 0 auto;
   width: 40%;
   height: 40px;
-  margin: 0 auto;
   font-family: inherit;
   letter-spacing: 0.3ch;
   text-transform: uppercase;
@@ -212,4 +211,12 @@ export const FormButton = styled.button`
   @media screen and (min-width: 480px) {
     font-size: 15px;
   }
+`;
+
+export const ErrorNotification = styled(ErrorMessage)`
+  display: block;
+  text-align: center;
+  text-transform: none;
+  font-size: 13px;
+  color: coral;
 `;

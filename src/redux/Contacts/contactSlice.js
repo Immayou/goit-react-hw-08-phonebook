@@ -4,7 +4,7 @@ import {
   addNewContact,
   removeContact,
   editContact,
-} from '../redux/operations';
+} from './operations';
 
 const allActions = [fetchContacts, addNewContact, removeContact, editContact];
 
@@ -64,7 +64,3 @@ export const contactsSlice = createSlice({
       .addMatcher(isAnyOf(...getActions('fulfilled')), fulfilledReducer);
   },
 });
-
-export const getContacts = state => state.contacts.items;
-export const getIsLoading = state => state.contacts.isLoading;
-export const getError = state => state.contacts.error;

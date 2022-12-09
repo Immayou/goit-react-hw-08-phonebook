@@ -1,28 +1,27 @@
 import PropTypes from 'prop-types';
+import { Formik } from 'formik';
 import { FaFeather } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPortal } from 'react-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { IoCloseSharp } from 'react-icons/io5';
-import { getContacts } from '../../redux/contactSlice';
-import { editContact } from '../../redux/operations';
+import { getContacts } from '../../redux/Contacts/contactSelectors';
+import { editContact } from '../../redux/Contacts/operations';
 import { notifyErrorIfNewContactAlreadyExists } from '../../../src/notificationMessages/notificationMessages';
 import {
   Overlay,
   ModalCloseButton,
   WrapperLeft,
   WrapperRight,
-} from '../Modal/Modal.styled';
-import {
-  Form,
+  FormBox,
   WrapperCircle,
   FormContent,
   FormTitle,
   FormLabel,
   FormInput,
   FormButton,
-} from '../../pages/LogIn/LogIn.styled';
+} from '../Modal/Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -30,9 +29,6 @@ export const Modal = ({ onModalClose, dataContact }) => {
   const dispatch = useDispatch();
   const addedContacts = useSelector(getContacts);
   document.body.style.overflow = 'hidden';
-
-  const [name, setName] = useState(dataContact.name);
-  const [number, setNumber] = useState(dataContact.number);
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
@@ -49,17 +45,9 @@ export const Modal = ({ onModalClose, dataContact }) => {
     };
   });
 
-  const handleInput = e => {
-    switch (e.target.name) {
-      case 'name':
-        setName(e.target.value);
-        break;
-      case 'number':
-        setNumber(e.target.value);
-        break;
-      default:
-        return;
-    }
+  const initialValues = {
+    name: dataContact.name,
+    number: dataContact.number,
   };
 
   const handleBackdropClick = e => {
@@ -68,12 +56,10 @@ export const Modal = ({ onModalClose, dataContact }) => {
     }
   };
 
-  const handleEditContactFormSubmit = e => {
-    e.preventDefault();
+  const handleEditContactFormSubmit = (values, { resetForm }) => {
     const contactToEdit = {
+      ...values,
       id: dataContact.id,
-      name,
-      number,
     };
 
     const editedContactAlreadyExists = addedContacts.find(
@@ -98,47 +84,49 @@ export const Modal = ({ onModalClose, dataContact }) => {
     }
 
     document.body.style.overflow = '';
+    resetForm();
   };
 
   return createPortal(
     <Overlay onClick={handleBackdropClick}>
-      <Form onSubmit={handleEditContactFormSubmit}>
-        <ModalCloseButton type="button" onClick={onModalClose}>
-          <IoCloseSharp size={40} />
-        </ModalCloseButton>
-        <WrapperLeft></WrapperLeft>
-        <WrapperRight></WrapperRight>
-        <WrapperCircle></WrapperCircle>
-        <FormContent>
-          <FormTitle>Edit the contact</FormTitle>
-          <FormLabel htmlFor={nameInputId}>Name</FormLabel>
-          <FormInput
-            id={nameInputId}
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleInput}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-          <FormLabel htmlFor={numberInputId}>Number</FormLabel>
-          <FormInput
-            id={numberInputId}
-            type="tel"
-            name="number"
-            value={number}
-            onChange={handleInput}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-          <FormButton type="submit">
-            <FaFeather style={{ marginRight: '5px' }} />
-            <span>Ok</span>
-          </FormButton>
-        </FormContent>
-      </Form>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleEditContactFormSubmit}
+      >
+        <FormBox>
+          <ModalCloseButton type="button" onClick={onModalClose}>
+            <IoCloseSharp size={40} />
+          </ModalCloseButton>
+          <WrapperLeft></WrapperLeft>
+          <WrapperRight></WrapperRight>
+          <WrapperCircle></WrapperCircle>
+          <FormContent>
+            <FormTitle>Edit the contact</FormTitle>
+            <FormLabel htmlFor={nameInputId}>Name</FormLabel>
+            <FormInput
+              id={nameInputId}
+              type="text"
+              name="name"
+              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              required
+            />
+            <FormLabel htmlFor={numberInputId}>Number</FormLabel>
+            <FormInput
+              id={numberInputId}
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+            />
+            <FormButton type="submit">
+              <FaFeather style={{ marginRight: '5px' }} />
+              <span>Ok</span>
+            </FormButton>
+          </FormContent>
+        </FormBox>
+      </Formik>
     </Overlay>,
     modalRoot
   );

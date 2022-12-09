@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { FaFeather } from 'react-icons/fa';
-import { logOut } from '../../redux/authOperations';
+import { logOut } from '../../redux/Auth/authOperations';
 import { useAuth } from '../../hooks/useAuth';
 import {
   HeaderUserText,

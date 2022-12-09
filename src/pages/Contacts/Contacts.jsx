@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getIsLoading, getError } from '../../redux/contactSlice';
-import { fetchContacts } from '../../redux/operations';
+import {
+  getContacts,
+  getIsLoading,
+  getError,
+} from '../../redux/Contacts/contactSelectors';
+import { fetchContacts } from '../../redux/Contacts/operations';
 import TopBox from '../../components/TopBox/TopBox';
 import BottomBox from '../../components/BottomBox/BottomBox';
 import ContactForm from '../../components/ContactForm/ContactForm';
